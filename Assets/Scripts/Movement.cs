@@ -51,24 +51,6 @@ public class Movement : MonoBehaviour
         else
             rb.drag = 0;
 
-
-        //borders
-        if (transform.position.x > xRange)
-        {
-            transform.position = new Vector3(xRange, transform.position.y, transform.position.z);
-        }
-        else if (transform.position.x < -xRange)
-        {
-            transform.position = new Vector3(-xRange, transform.position.y, transform.position.z);
-        }
-        else if (transform.position.z > zRange)
-        {
-            transform.position = new Vector3(transform.position.x, transform.position.y, zRange);
-        }
-        else if(transform.position.z < -zRange)
-        {
-            transform.position = new Vector3(transform.position.x, transform.position.y, -zRange);
-        }
     }
      
     private void FixedUpdate()
