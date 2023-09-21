@@ -15,20 +15,16 @@ public class GameControls : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown("tab"))
+        if (Input.GetKey("tab"))
         {
-            if (FirstPersonCam.activeSelf == true)
-            {
-                FirstPersonCam.SetActive (false);
-                TopDownCam.SetActive (true);
-            }
-            else
-            {
-                FirstPersonCam.SetActive(true);
-                TopDownCam.SetActive(false);
-            }
+            FirstPersonCam.SetActive(false);
+            TopDownCam.SetActive(true);
         }
-            
+        else
+        {
+            FirstPersonCam.SetActive(true);
+            TopDownCam.SetActive(false);
+        }
 
     }
 }

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class GrapplingGun : MonoBehaviour
 {
-
+ 
     private LineRenderer lr;
     private Vector3 grapplePoint;
     public LayerMask whatisGrappleable;
@@ -47,7 +48,7 @@ public class GrapplingGun : MonoBehaviour
 
             float distanceFromPoint = Vector3.Distance(player.position, grapplePoint);
 
-            joint.maxDistance = distanceFromPoint * 0.8f;
+            joint.maxDistance = distanceFromPoint * 0.4f;
             joint.minDistance = distanceFromPoint * 0.25f;
 
 
@@ -56,6 +57,7 @@ public class GrapplingGun : MonoBehaviour
             joint.massScale = 4.5f;
 
             lr.positionCount = 2;
+            //movement.airMultiplier = 4;
 
         }
     }

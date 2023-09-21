@@ -1,5 +1,7 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -18,6 +20,7 @@ public class Movement : MonoBehaviour
     public KeyCode jumpKey = KeyCode.Space;
 
     [Header("Ground Check")]
+    public Transform RaycastCharacter;
     public float playerHeight;
     public LayerMask whatisGround;
     bool grounded;
@@ -31,17 +34,19 @@ public class Movement : MonoBehaviour
 
     Rigidbody rb;
 
+    private Animator animator;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
 
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatisGround);
+        grounded = Physics.Raycast(RaycastCharacter.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatisGround);
 
         MyInput();
         SpeedControl();
@@ -50,6 +55,15 @@ public class Movement : MonoBehaviour
             rb.drag = groundDrag;
         else
             rb.drag = 0;
+
+        if (moveDirection == Vector3.zero)
+        {
+            animator.SetFloat("SpeedCheck", 0);
+        }
+        else
+        {
+            animator.SetFloat("SpeedCheck", 1);
+        }
 
     }
      
@@ -77,12 +91,17 @@ public class Movement : MonoBehaviour
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        if (grounded)
+        if (grounded) { 
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            animator.SetBool("IsFalling", false);
+        }
+
 
         else if(!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            animator.SetBool("IsFalling", true);
     }
+
 
     private void SpeedControl()
     {
